@@ -1,12 +1,9 @@
 type Resolver = {
   Query: {
-    hello: HelloQuery;
-    person: PersonQuery;
+    hello: (_: undefined, { name }: { name?: string }) => string;
+    person: () => Person;
   };
 };
-
-type HelloQuery = (_: undefined, { name }: { name?: string }) => string;
-type PersonQuery = () => Person;
 
 type Person = {
   name: string;
