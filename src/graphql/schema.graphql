@@ -1,4 +1,12 @@
+# type
+type Person {
+  name: String!
+  age: Int!
+  gender: String!
+}
+
 # Query
 type Query {
   hello(name: String): String!
+  person: Person
 }

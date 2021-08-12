@@ -1,10 +1,33 @@
-type HelloQuery = (_: undefined, { name }: { name?: string }) => string;
+type Resolver = {
+  Query: {
+    hello: HelloQuery;
+    person: PersonQuery;
+  };
+};
 
-const resolvers = {
+type HelloQuery = (_: undefined, { name }: { name?: string }) => string;
+type PersonQuery = () => Person;
+
+type Person = {
+  name: string;
+  age: number;
+  gender: string;
+};
+
+const dodok8: Person = {
+  name: 'dodok8',
+  age: 23,
+  gender: 'male',
+};
+
+const resolvers: Resolver = {
   Query: {
     hello: function (_: undefined, { name }) {
       return `Hello ${name || 'world'}`;
-    } as HelloQuery,
+    },
+    person: function () {
+      return dodok8;
+    },
   },
 };
 
