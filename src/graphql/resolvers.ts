@@ -1,29 +1,73 @@
 type Resolver = {
   Query: {
-    hello: (_: undefined, { name }: { name?: string }) => string;
-    person: () => Person;
+    hello: (_: unknown, { name }: { name?: string }) => string;
+    person: (_: unknown, { id }: { id: number }) => Person;
+    people: () => Array<Person>;
   };
 };
 
 type Person = {
+  id: number;
   name: string;
   age: number;
   gender: string;
 };
 
-const dodok8: Person = {
-  name: 'dodok8',
-  age: 23,
-  gender: 'male',
-};
+const people: Array<Person> = [
+  {
+    id: 0,
+    name: 'dodok8',
+    age: 23,
+    gender: 'male',
+  },
+  {
+    id: 1,
+    name: 'Jisu',
+    age: 18,
+    gender: 'female',
+  },
+  {
+    id: 2,
+    name: 'Japan Guy',
+    age: 18,
+    gender: 'male',
+  },
+  {
+    id: 3,
+    name: 'Daal',
+    age: 18,
+    gender: 'male',
+  },
+  {
+    id: 4,
+    name: 'JD',
+    age: 18,
+    gender: 'male',
+  },
+  {
+    id: 5,
+    name: 'moondaddi',
+    age: 18,
+    gender: 'male',
+  },
+  {
+    id: 6,
+    name: 'flynn',
+    age: 18,
+    gender: 'male',
+  },
+];
 
 const resolvers: Resolver = {
   Query: {
-    hello: function (_: undefined, { name }) {
+    hello: function (_, { name }) {
       return `Hello ${name || 'world'}`;
     },
-    person: function () {
-      return dodok8;
+    person: function (_, { id }) {
+      return people.filter((person) => person.id === id)[0];
+    },
+    people: function () {
+      return people;
     },
   },
 };
