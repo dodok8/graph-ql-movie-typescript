@@ -6,9 +6,23 @@ type Person {
   gender: String!
 }
 
+type Movie {
+  id: Int!
+  name: String!
+  score: Int!
+}
+
 # Query
 type Query {
   hello(name: String): String!
   person(id: Int!): Person
   people: [Person]!
+  getMovies: [Movie]!
+  getById(id: Int!): Movie
+}
+
+# Mutation
+type Mutation {
+  addMovie(score: Int!, name: String!): Movie!
+  deleteMovie(id: Int!): Boolean
 }

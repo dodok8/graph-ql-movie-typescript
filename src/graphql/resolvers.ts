@@ -1,62 +1,24 @@
+import { Person, people, Movie, movies } from './db';
+
 type Resolver = {
   Query: {
     hello: (_: unknown, { name }: { name?: string }) => string;
     person: (_: unknown, { id }: { id: number }) => Person;
     people: () => Array<Person>;
+    getMovies: () => Array<Movie>;
+    getById: (_: unknown, { id }: { id: number }) => Movie;
+  };
+  Mutation: {
+    addMovie: (
+      _: unknown,
+      { name, score }: { name: string; score: number },
+    ) => Movie;
+    deleteMovie: (_: unknown, { id }: { id: number }) => boolean;
   };
 };
 
-type Person = {
-  id: number;
-  name: string;
-  age: number;
-  gender: string;
-};
-
-const people: Array<Person> = [
-  {
-    id: 0,
-    name: 'dodok8',
-    age: 23,
-    gender: 'male',
-  },
-  {
-    id: 1,
-    name: 'Jisu',
-    age: 18,
-    gender: 'female',
-  },
-  {
-    id: 2,
-    name: 'Japan Guy',
-    age: 18,
-    gender: 'male',
-  },
-  {
-    id: 3,
-    name: 'Daal',
-    age: 18,
-    gender: 'male',
-  },
-  {
-    id: 4,
-    name: 'JD',
-    age: 18,
-    gender: 'male',
-  },
-  {
-    id: 5,
-    name: 'moondaddi',
-    age: 18,
-    gender: 'male',
-  },
-  {
-    id: 6,
-    name: 'flynn',
-    age: 18,
-    gender: 'male',
-  },
-];
+// eslint-disable-next-line prefer-const
+let currentMovies: Array<Movie> = movies;
 
 const resolvers: Resolver = {
   Query: {
@@ -68,6 +30,32 @@ const resolvers: Resolver = {
     },
     people: function () {
       return people;
+    },
+    getMovies: function () {
+      return currentMovies;
+    },
+    getById: function (_, { id }) {
+      return currentMovies.filter((movie) => movie.id === id)[0];
+    },
+  },
+  Mutation: {
+    addMovie: function (_, { name, score }) {
+      const newMovie: Movie = {
+        id: currentMovies.length + 1,
+        name,
+        score,
+      };
+      currentMovies.push(newMovie);
+      return newMovie;
+    },
+    deleteMovie: function (_, { id }) {
+      const cleanedMovies = currentMovies.filter((movie) => movie.id !== id);
+      if (currentMovies.length > cleanedMovies.length) {
+        currentMovies = cleanedMovies;
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };
