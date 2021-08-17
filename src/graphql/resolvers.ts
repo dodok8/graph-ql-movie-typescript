@@ -17,7 +17,6 @@ type Resolver = {
   };
 };
 
-// eslint-disable-next-line prefer-const
 let currentMovies: Array<Movie> = movies;
 
 const resolvers: Resolver = {
